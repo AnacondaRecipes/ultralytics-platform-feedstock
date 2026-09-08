@@ -1,45 +1,47 @@
-{% set name = "<PLEASE ADD PKG NAME>" %}
-{% set version = "<PLEASE ADD PKG VERSION>" %}
+{% set name = "ultralytics-platform" %}
+{% set version = "0.1.32" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: <sha256>
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace("-", "_") }}-{{ version }}.tar.gz
+  sha256: 427fc92e638075cebab13b2279bb8a451918e6ff48e568640a088dddc45728ec
 
 build:
-  number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<38]
+  number: 0
+  skip: true  # [py<311]
 
 requirements:
   host:
     - python
+    - uv-build >=0.12.3,<0.13
     - pip
   run:
     - python
+    - httpx >=0.28,<1
 
 test:
   imports:
-    - {{ name.replace('-', '.') }}
-  requires:
-    - pip
+    - ultralytics_platform
   commands:
     - pip check
+  requires:
+    - pip
+    - python
 
 about:
-  home: <PLEASE ADD HOME URL>
-  summary: <PLEASE ADD SUMMARY>
-  description: |
-    <PLEASE ADD DESCRIPTION>
-  license: <PLEASE ADD LICENSE>
-  license_family: <PLEASE ADD LICENSE_FAMILY>
-  license_file: <PLEASE_ADD_LICENSE_FILE>
-  dev_url: <PLEASE ADD DEV URL>
-  doc_url: <PLEASE ADD DOC URL>
+  home: https://pypi.org/project/ultralytics-platform/
+  summary: Typed Python SDK for the Ultralytics Platform API.
+  description: Typed Python SDK for the Ultralytics Platform API.
+  license: AGPL-3.0-only
+  license_family: GPL
+  license_file: LICENSE
+  doc_url: https://pypi.org/project/ultralytics-platform/
+  dev_url: https://pypi.org/project/ultralytics-platform/
 
 extra:
   recipe-maintainers:
-    - Jrice1317
+    - avetr-work
